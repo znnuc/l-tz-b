@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aşk Sitesi - Zübzüb & Lütfü</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: none;
+      margin: 10px;
+    }
+
+    button:hover {
+      background: #d10b39;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .option-btn {
+      display: block;
+      margin: 15px auto;
+      background: white;
+      color: #b62c45;
+      font-weight: bold;
+    }
+
+    .hearts {
+      font-size: 40px;
+      animation: float 2s infinite ease-in-out alternate;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-20px); }
+    }
+
+    .fly-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .fly {
+      position: absolute;
+      font-size: 25px;
+      animation: flyUp linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes flyUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UÇAN KALPLER VE KELEBEKLER -->
+  <div class="fly-container" id="flyContainer"></div>
+
+  <!-- GİRİŞ EKRANI -->
+  <div id="loginScreen" class="screen active">
+    <h1>Giriş Yap</h1>
+    <input type="text" id="username" placeholder="Kullanıcı Adı"><br>
+    <input type="password" id="password" placeholder="Şifre"><br>
+    <button onclick="login()">Giriş Yap</button>
+    <p id="loginError" style="color: yellow;"></p>
+  </div>
+
+  <!-- SEÇİM EKRANI -->
+  <div id="choiceScreen" class="screen">
+    <h2>Birini seç bakalım 😊</h2>
+    <button class="option-btn" onclick="checkChoice(true)">zübzüb</button>
+    <button class="option-btn" onclick="checkChoice(false)">Diğer🙄</button>
+  </div>
+
+  <!-- SON EKRAN -->
+  <div id="loveScreen" class="screen">
+    <h1 class="hearts">💖 SENİ ÇOK SEVİYORUM LÜTFÜSS 💖</h1>
+    <p>
+      Birlikte nice güzel anlara💕<br>
+      Sonsuza dek Zübzüb & Lütfü💕<br>
+      İYİ Kİ BİZZZZ! 💞🦋
+    </p>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value.toLowerCase();
+      const password = document.getElementById('password').value;
+
+      if (username === "züblüt" && password === "31.12") {
+        document.getElementById('loginScreen').classList.remove('active');
+        document.getElementById('choiceScreen').classList.add('active');
+      } else {
+        document.getElementById('loginError').textContent = "Kullanıcı adı veya şifre yanlış!";
+      }
+    }
+
+    function checkChoice(correct) {
+      if (correct) {
+        document.getElementById('choiceScreen').classList.remove('active');
+        document.getElementById('loveScreen').classList.add('active');
+      } else {
+        alert("Hatalı seçim 😢 Zübzüb'ü seçmeliydin!");
+      }
+    }
+
+    // UÇAN KALPLER VE KELEBEKLER
+    const flyContainer = document.getElementById("flyContainer");
+    const emojis = ["❤️", "💖", "💕", "💘", "💞", "🦋", "💓", "💗", "🩷"];
+
+    function createFlyingEmoji() {
+      const emoji = document.createElement("div");
+      emoji.classList.add("fly");
+      emoji.style.left = Math.random() * 100 + "vw";
+      emoji.style.animationDuration = (5 + Math.random() * 5) + "s";
+      emoji.style.fontSize = (20 + Math.random() * 30) + "px";
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      flyContainer.appendChild(emoji);
+
+      // Uçuş tamamlandığında sil
+      setTimeout(() => {
+        flyContainer.removeChild(emoji);
+      }, 10000);
+    }
+
+    // Her 500ms'de 1 emoji oluştur
+    setInterval(createFlyingEmoji, 500);
+  </script>
+
+</body>
+</html>
